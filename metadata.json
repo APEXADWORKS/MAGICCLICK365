@@ -1,0 +1,6 @@
+{
+  "name": "Sports News Hub",
+  "description": "A premium, fully responsive sports news application featuring long-form sports coverage, live score states, and a directory of curated cricket websites.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
