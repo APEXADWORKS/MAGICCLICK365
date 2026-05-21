@@ -3,8 +3,9 @@ import {
   ShieldCheck, 
   Cpu, 
   Users, 
-  Timer,
-  Zap
+  Mail,
+  FileText,
+  X
 } from 'lucide-react';
 
 export default function App() {
@@ -12,6 +13,8 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(197);
   const [activePlayers, setActivePlayers] = useState(3105);
   const telegramUrl = 'https://t.me/chickenroadsignal_official';
+
+  const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'license' | null>(null);
 
   // Live timer tick-down
   useEffect(() => {
@@ -144,6 +147,77 @@ export default function App() {
 
         </div>
 
+        {/* MANAGED BY - APEX AD WORKS */}
+        <div className="w-full text-center py-2" id="managed-by-section">
+          <a 
+            href="https://t.me/tech_apex" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-black font-mono tracking-widest text-slate-400 hover:text-[#00ffcc] transition-all uppercase select-none active:scale-[0.98] py-1 px-3 rounded-full hover:bg-white/[0.02] border border-transparent hover:border-white/5"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ffcc] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00ffcc]"></span>
+            </span>
+            managed by - apex ad works
+          </a>
+        </div>
+
+        {/* POLICIES & RULES SECTION */}
+        <div className="w-full space-y-2 border-t border-white/5 pt-4" id="policies-section">
+          <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-widest text-slate-400 px-1">
+            <span>Policies & Rules</span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2.5">
+            <button
+              onClick={() => setActiveModal('privacy')}
+              className="bg-[#080d1a] border border-white/5 hover:border-[#00ffcc]/30 py-2.5 px-1.5 rounded-xl text-center text-[10px] font-bold text-slate-300 hover:text-white transition-all flex flex-col items-center justify-center gap-1 font-mono uppercase"
+            >
+              <FileText className="h-3.5 w-3.5 text-slate-400" />
+              Privacy
+            </button>
+            <button
+              onClick={() => setActiveModal('terms')}
+              className="bg-[#080d1a] border border-white/5 hover:border-[#00ffcc]/30 py-2.5 px-1.5 rounded-xl text-center text-[10px] font-bold text-slate-300 hover:text-white transition-all flex flex-col items-center justify-center gap-1 font-mono uppercase"
+            >
+              <FileText className="h-3.5 w-3.5 text-slate-400" />
+              Terms
+            </button>
+            <button
+              onClick={() => setActiveModal('license')}
+              className="bg-[#080d1a] border border-white/5 hover:border-[#00ffcc]/30 py-2.5 px-1.5 rounded-xl text-center text-[10px] font-bold text-slate-300 hover:text-white transition-all flex flex-col items-center justify-center gap-1 font-mono uppercase"
+            >
+              <FileText className="h-3.5 w-3.5 text-slate-400" />
+              License
+            </button>
+          </div>
+        </div>
+
+        {/* CORPORATE CONTACT */}
+        <div className="w-full bg-[#080d1a] border border-white/5 rounded-2xl p-4 flex flex-col items-center justify-center gap-1 text-center shadow-lg" id="corporate-contact-section">
+          <span className="text-[9px] font-mono font-bold tracking-widest text-[#00ffcc] uppercase">
+            Corporate Contact
+          </span>
+          <a 
+            href="mailto:support@magicclick365.site" 
+            className="text-xs font-mono font-bold text-slate-200 hover:text-[#00ffcc] transition-all flex items-center gap-1.5 mt-1 select-all"
+          >
+            <Mail className="h-3.5 w-3.5" />
+            support@magicclick365.site
+          </a>
+        </div>
+
+        {/* FORMAL COMPLIANCE DISCLAIMER */}
+        <div className="w-full bg-[#080d1a]/40 border border-white/5 p-4 rounded-xl text-center shadow-md select-text" id="compliance-disclaimer-section">
+          <p className="text-[9.5px] font-bold font-mono tracking-widest text-slate-400 uppercase mb-2">
+            FORMAL COMPLIANCE DISCLAIMER
+          </p>
+          <p className="text-[9.5px] font-semibold text-slate-500 leading-relaxed uppercase tracking-wider text-justify">
+            This platform serves strictly for scientific modeling, information distribution, and statistical modeling analysis of sequence structures. The Millionx Predictors System does not promote, host, direct, or facilitate wagering, predictions, casino gaming, color gaming, gambling, betting, or financial speculation. Subscribing to telemetry streams is intended purely for statistics logging and sports biomechanics research.
+          </p>
+        </div>
+
       </div>
 
       {/* Footer copyright block matching reference */}
@@ -152,6 +226,47 @@ export default function App() {
           © 2026 MILLIONX PREDICTORS SYSTEM
         </p>
       </footer>
+
+      {/* LOCAL TEXT MODALS */}
+      {activeModal && (
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-4 select-text">
+          <div className="bg-[#080d1a] border border-[#00ffcc]/20 rounded-3xl max-w-sm w-full p-6 space-y-4 relative shadow-2xl">
+            <button 
+              onClick={() => setActiveModal(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 hover:bg-white/5 rounded-full transition-all"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono font-black text-[#00ffcc] tracking-widest uppercase block">
+                POLICY DOCUMENT
+              </span>
+              <h4 className="text-lg font-black tracking-wider uppercase text-white font-display">
+                {activeModal === 'privacy' && 'Privacy Statement'}
+                {activeModal === 'terms' && 'Terms of Usage'}
+                {activeModal === 'license' && 'Platform License'}
+              </h4>
+            </div>
+            <div className="text-[11px] text-slate-300 leading-relaxed font-semibold font-mono bg-black/40 border border-white/5 rounded-2xl p-4 text-justify select-text">
+              {activeModal === 'privacy' && 
+                "Your telemetry connection and sequence configuration signatures are strictly kept client-side within local storage identifiers and encrypted telemetry streams. We collect no personal name, bank credentials, or location logs. Statistical sequence telemetry remains strictly anonymous."
+              }
+              {activeModal === 'terms' && 
+                "The statistical modelling analysis modules, V9.0 neural engines, and system reset telemetry telemetry logs are published strictly for academic distribution, personal reference, and diagnostic verification study. Accessing signal data logs implies adherence to scientific licensing covenants."
+              }
+              {activeModal === 'license' && 
+                "Millionx Predictors System Core V9.0 Engine. Academic Source License. Distribution or simulation of the sequence engines is granted under standard high-fidelity modeling research agreements."
+              }
+            </div>
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full py-3 bg-[#00ffcc] text-[#040811] font-black uppercase text-xs tracking-widest rounded-2xl hover:brightness-110 active:scale-[0.98] transition-all"
+            >
+              ACKNOWLEDGE LOG
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );
