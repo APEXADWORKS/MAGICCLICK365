@@ -80,7 +80,7 @@ export default function App() {
             {/* Inner Graphic Media Container with new Jungle Haan Logo */}
             <div className="w-full h-full rounded-full bg-dark-950 border border-black/40 flex flex-col items-center justify-center relative overflow-hidden shadow-inner">
               <img 
-                src="/src/assets/images/jungle_haan_logo_1779360549583.png" 
+                src="/images/jungle_haan_logo.png" 
                 alt="Jungle Haan Mascot" 
                 className="w-full h-full object-cover rounded-full pointer-events-none scale-[1.01]"
                 referrerPolicy="no-referrer"
