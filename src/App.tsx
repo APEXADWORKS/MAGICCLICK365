@@ -1,283 +1,158 @@
-import { useState, useMemo } from 'react';
-import Header from './components/Header';
-import PetCompanionCenter from './components/PetCompanionCenter';
-import HeroBlog from './components/HeroBlog';
-import BlogGrid from './components/BlogGrid';
-import VetDirectory from './components/VetDirectory';
-import BlogDetailModal from './components/BlogDetailModal';
-import { PET_BLOGS } from './data/petData';
-import { BlogPost } from './types';
-import { Award, Sparkles, Filter, Bookmark, Heart, ShieldCheck, Mail, ArrowUpRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { 
+  ShieldCheck, 
+  Cpu, 
+  Users, 
+  Timer,
+  Zap
+} from 'lucide-react';
 
 export default function App() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+  // Simulator timer starts at 197 seconds (03:17)
+  const [timeLeft, setTimeLeft] = useState(197);
+  const [activePlayers, setActivePlayers] = useState(3105);
+  const telegramUrl = 'https://t.me/chickenroadsignal_official';
 
-  const categories = ['All', 'Dogs', 'Cats', 'Birds', 'Rabbits', 'Exotics', 'Veterinary References'];
+  // Live timer tick-down
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          return 197; // reset back to 03:17 to match reference image cycle
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  // Filter blogs by search term and tab selection
-  const filteredBlogs = useMemo(() => {
-    return PET_BLOGS.filter((blog) => {
-      // 1. Tab category Filter
-      if (selectedCategory !== 'All' && selectedCategory !== 'Veterinary References') {
-        if (blog.category !== selectedCategory) return false;
-      }
-      
-      // If "Veterinary References" is selected, we render ONLY the directory
-      if (selectedCategory === 'Veterinary References') {
-        return false;
-      }
+    return () => clearInterval(timerInterval);
+  }, []);
 
-      // 2. Search Term query
-      if (searchTerm.trim() !== '') {
-        const query = searchTerm.toLowerCase();
-        const matchesTitle = blog.title.toLowerCase().includes(query);
-        const matchesBrief = blog.brief.toLowerCase().includes(query);
-        const matchesContent = blog.content.toLowerCase().includes(query);
-        const matchesTags = blog.tags.some((t) => t.toLowerCase().includes(query));
-        const matchesAuthor = blog.author.toLowerCase().includes(query);
-        return matchesTitle || matchesBrief || matchesContent || matchesTags || matchesAuthor;
-      }
+  // Format MM:SS for countdown timer (e.g. 03:17)
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
-      return true;
-    });
-  }, [selectedCategory, searchTerm]);
+  // Fluctuates around 3,105 slightly for a live organic feel
+  useEffect(() => {
+    const playersInterval = setInterval(() => {
+      setActivePlayers(prev => {
+        const delta = Math.floor(Math.random() * 5) - 2; // +/- 2 players
+        const nextVal = prev + delta;
+        return nextVal < 3098 ? 3105 : nextVal > 3115 ? 3105 : nextVal;
+      });
+    }, 4000);
 
-  // Establish feature article
-  const heroBlog = useMemo(() => {
-    if (searchTerm.trim() !== '') return null;
-
-    if (selectedCategory === 'All') {
-      return PET_BLOGS.find((b) => b.featured) || PET_BLOGS[0];
-    } else {
-      return PET_BLOGS.find((b) => b.category === selectedCategory) || null;
-    }
-  }, [selectedCategory, searchTerm]);
-
-  // Feed selection (filter out hero)
-  const gridBlogs = useMemo(() => {
-    if (!heroBlog) return filteredBlogs;
-    return filteredBlogs.filter((b) => b.id !== heroBlog.id);
-  }, [filteredBlogs, heroBlog]);
+    return () => clearInterval(playersInterval);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased" id="root-portal">
-      {/* Global Branding Header */}
-      <Header
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={(cat) => {
-          setSelectedCategory(cat);
-          setSearchTerm(''); // Flush search when switching views
-        }}
-        categories={categories}
-      />
+    <div 
+      className="min-h-screen bg-[#05070b] font-sans text-slate-100 antialiased flex flex-col justify-between items-center py-10 px-4 relative overflow-hidden select-none" 
+      id="landing-page-root"
+    >
+      
+      {/* Subtle futuristic background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-cyber-cyan/10 rounded-full blur-[140px] pointer-events-none pulsing-bg"></div>
 
-      <main className="mx-auto max-w-7xl px-4 py-6 space-y-8 md:px-8 md:py-8" id="primary-content-frame">
-        {/* Companion Interactive Tracker Ribbon - Hide if looking exclusively at directories */}
-        {selectedCategory !== 'Veterinary References' && (
-          <section id="companion-tracker-section" className="space-y-3">
-            <PetCompanionCenter />
-          </section>
-        )}
+      {/* Main Body Centered Content */}
+      <div className="flex-grow flex flex-col items-center justify-center max-w-sm w-full space-y-6 z-10" id="signals-center">
+        
+        {/* Title: JUNGLE HAAN */}
+        <h1 className="text-3xl font-black tracking-widest font-display text-center uppercase leading-tight select-none">
+          <span className="text-cyber-cyan cyan-text-glow">JUNGLE</span>{' '}
+          <span className="text-white text-shadow-white">HAAN</span>
+        </h1>
 
-        {/* Specialized Notification Callout Badge */}
-        {selectedCategory === 'Cats' && (
-          <div className="rounded-2xl bg-gradient-to-r from-emerald-800 to-emerald-700 p-6 text-white shadow-xl border-b-4 border-amber-400 border-2 border-slate-800 text-left">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <span className="inline-flex items-center gap-1 rounded bg-slate-950/40 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-amber-300">
-                  <Sparkles className="h-3.5 w-3.5 text-amber-350" /> IMPORTANT VETERINARY HIGHLIGHTS
-                </span>
-                <h3 className="text-xl font-black uppercase tracking-tight md:text-2xl">
-                  Deciphering Feline Hydration and Kidney Health?
-                </h3>
-                <p className="text-xs text-emerald-100 max-w-2xl leading-relaxed font-semibold">
-                  Cats possess low biological thirst drives. We strongly recommend feeding moisture-rich formulas to safeguard against renal deposits. Read our full directory references below for specialized veterinary reviews.
-                </p>
-              </div>
-              <button
-                onClick={() => setSelectedCategory('Veterinary References')}
-                className="rounded-xl bg-amber-400 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-slate-950 shadow-md transition-all duration-200 hover:bg-amber-300 cursor-pointer self-start md:self-auto shrink-0 select-none"
-              >
-                Open Veterinary Directory
-              </button>
-            </div>
-          </div>
-        )}
+        {/* HIGH-FIDELITY AVATAR CIRCLE */}
+        <div className="relative group cursor-pointer">
+          {/* Cyber-cyan Outer Radial Aura Glow */}
+          <div className="absolute inset-x-0 inset-y-0 rounded-full blur-3xl bg-cyber-cyan/35 opacity-90 transition-all duration-300"></div>
 
-        {/* Dynamic Route Rendering based on selections */}
-        {selectedCategory === 'Veterinary References' ? (
-          <section id="directory-exclusive-container">
-            <VetDirectory />
-          </section>
-        ) : (
-          <>
-            {/* Featured Blog */}
-            {heroBlog && (
-              <section id="hero-feature-blog-section" className="transition-all duration-200">
-                <HeroBlog blog={heroBlog} onReadMore={setSelectedBlog} />
-              </section>
-            )}
-
-            {/* Standard Grid & Sidebar */}
-            <section id="blogs-grid-section">
-              <BlogGrid
-                blogs={gridBlogs}
-                onSelectBlog={setSelectedBlog}
-                selectedCategory={selectedCategory}
+          {/* Glowing ring bezel */}
+          <div 
+            className="relative w-52 h-52 rounded-full bg-gradient-to-tr from-cyber-cyan via-emerald-400 to-green-500 p-1.5 shadow-2xl transition-transform active:scale-95 duration-200 border-2 border-black/80"
+            style={{
+              boxShadow: '0 0 32px rgba(0, 255, 204, 0.4)'
+            }}
+          >
+            {/* Inner Graphic Media Container with new Jungle Haan Logo */}
+            <div className="w-full h-full rounded-full bg-dark-950 border border-black/40 flex flex-col items-center justify-center relative overflow-hidden shadow-inner">
+              <img 
+                src="/src/assets/images/jungle_haan_logo_1779360549583.png" 
+                alt="Jungle Haan Mascot" 
+                className="w-full h-full object-cover rounded-full pointer-events-none scale-[1.01]"
+                referrerPolicy="no-referrer"
               />
-            </section>
-
-            {/* If All is active, add inline-directory highlights for premium deep links structure */}
-            {selectedCategory === 'All' && (
-              <section id="all-directory-section" className="border-t-2 border-slate-200 pt-8 mt-12 bg-white rounded-2xl p-6 border-2 shadow-lg text-left">
-                <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
-                  <div className="flex items-center gap-2">
-                    <Bookmark className="h-6 w-6 text-amber-500 fill-amber-400/25" />
-                    <h3 className="text-md font-black uppercase tracking-tight text-slate-900">
-                      Top Verified Veterinary Directories
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setSelectedCategory('Veterinary References')}
-                    className="text-xs font-black uppercase tracking-wider text-emerald-700 hover:text-amber-500 cursor-pointer"
-                  >
-                    View Full Directory →
-                  </button>
-                </div>
-                <p className="text-xs text-slate-500 font-semibold mb-4">
-                  Require official genetic breed risks, toxic catalog indexes, or certified clinical dosage tools? Direct connect to world class associations:
-                </p>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  <a
-                    href="https://www.avma.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border-2 p-3 text-xs font-black text-slate-800 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-600 hover:text-emerald-800 transition-all shadow-sm"
-                  >
-                    <span>AVMA Web</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-700 ml-1.5 shrink-0" />
-                  </a>
-                  <a
-                    href="https://www.aspca.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border-2 p-3 text-xs font-black text-slate-800 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-600 hover:text-emerald-800 transition-all shadow-sm"
-                  >
-                    <span>ASPCA Rescue</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-700 ml-1.5 shrink-0" />
-                  </a>
-                  <a
-                    href="https://www.petmd.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border-2 p-3 text-xs font-black text-slate-800 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-600 hover:text-emerald-800 transition-all shadow-sm"
-                  >
-                    <span>PetMD Clinic</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-700 ml-1.5 shrink-0" />
-                  </a>
-                  <a
-                    href="https://www.rspca.org.uk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border-2 p-3 text-xs font-black text-slate-800 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-600 hover:text-emerald-800 transition-all shadow-sm"
-                  >
-                    <span>RSPCA Standards</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-700 ml-1.5 shrink-0" />
-                  </a>
-                  <a
-                    href="https://www.vet.cornell.edu"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border-2 p-3 text-xs font-black text-slate-800 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-600 hover:text-emerald-800 transition-all shadow-sm"
-                  >
-                    <span>Cornell Science</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-700 ml-1.5 shrink-0" />
-                  </a>
-                </div>
-              </section>
-            )}
-          </>
-        )}
-      </main>
-
-      {/* Popover Blog Detail Reader View */}
-      <BlogDetailModal
-        blog={selectedBlog}
-        onClose={() => setSelectedBlog(null)}
-      />
-
-      {/* Global Footer in premium dark slate */}
-      <footer className="mt-20 border-t-4 border-amber-400 bg-slate-950 text-white py-12" id="global-footer">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 text-left">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-            <div className="space-y-3">
-              <h2 className="text-lg font-black tracking-tighter uppercase leading-none italic flex items-center gap-1">
-                <Heart className="h-5 w-5 text-amber-400 fill-amber-400" /> PAWFECT<span className="text-amber-400">CARE</span>
-              </h2>
-              <p className="font-sans text-xs text-slate-400 leading-relaxed font-semibold">
-                An expert-level journalistic blog, behavioral archive, and daily companion tracking module dedicated to standard-of-care guidelines for cats, dogs, rabbits, and exotic companions.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-xs font-black uppercase tracking-wider text-amber-400">
-                Veterinary Resources
-              </h4>
-              <ul className="mt-3 space-y-1.5 text-xs font-semibold">
-                <li>
-                  <a href="https://www.avma.org" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-amber-400 flex items-center gap-0.5 transition-colors">
-                    AVMA Official <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.aspca.org" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-amber-400 flex items-center gap-0.5 transition-colors">
-                    ASPCA Pet Safety <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.petmd.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-amber-400 flex items-center gap-0.5 transition-colors">
-                    PetMD Veterinary <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.vet.cornell.edu" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-amber-400 flex items-center gap-0.5 transition-colors">
-                    Cornell Feline Center <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </li>
-              </ul>
             </div>
 
-            <div>
-              <h4 className="text-xs font-black uppercase tracking-wider text-amber-400">
-                Companion Directories
-              </h4>
-              <ul className="mt-3 space-y-1.5 text-xs text-slate-400 font-semibold">
-                <li className="cursor-pointer hover:text-amber-400" onClick={() => setSelectedCategory('Dogs')}>Canine (Dogs)</li>
-                <li className="cursor-pointer hover:text-amber-400" onClick={() => setSelectedCategory('Cats')}>Felines (Cats)</li>
-                <li className="cursor-pointer hover:text-amber-400" onClick={() => setSelectedCategory('Birds')}>Avian (Birds)</li>
-                <li className="cursor-pointer hover:text-amber-400" onClick={() => setSelectedCategory('Rabbits')}>Lagomorphs (Rabbits)</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-xs font-black uppercase tracking-wider text-amber-400">
-                Scientific Quality Assurance
-              </h4>
-              <p className="mt-3 font-sans text-xs text-slate-400 leading-relaxed font-semibold">
-                All long-form advice materials are authored by certified herpetologists, feline behaviorists, and DVM experts. References are audited weekly.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-12 border-t border-slate-900 pt-6 text-center text-xs text-slate-500 font-bold uppercase tracking-wider">
-            <p>© 2026 Pawperfect Media Group. All reviews are edited in compliance with Professional Veterinary Publishing Guidelines.</p>
           </div>
         </div>
+
+      {/* REPLICA PRIMARY BUTTON "REGISTER NOW / ⚡ JUNGLE HAAN" */}
+      <div className="w-full">
+        <a 
+          href={telegramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full text-center bg-cyber-cyan text-[#040811] font-black uppercase rounded-2xl p-4.5 transition-all hover:brightness-110 pulsing-cyan-btn cursor-pointer select-none decoration-transparent"
+          style={{
+            background: '#00ffcc',
+            boxShadow: '0 0 24px rgba(0, 255, 204, 0.45)'
+          }}
+        >
+          <span className="block text-xl tracking-widest font-black font-display leading-none">
+            REGISTER NOW
+          </span>
+          <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
+            ⚡ JUNGLE HAAN
+          </span>
+        </a>
+      </div>
+
+      {/* SYSTEM RESET COUNTER CAPSULE PILL */}
+      <div className="bg-[#0f141f] border border-white/5 py-3 px-8 rounded-full flex items-center justify-center shadow-lg relative min-w-[240px]">
+        <span className="text-[13px] font-black font-mono uppercase tracking-widest text-slate-300">
+          SYSTEM RESET IN: <span className="text-white font-black">{formatTime(timeLeft)}</span>
+        </span>
+      </div>
+
+      {/* 3 GRID HOVER STATUS BOXES */}
+      <div className="grid grid-cols-3 gap-3.5 w-full pt-1.5 font-display">
+          
+          {/* Box 1 (STATUS SECURE) */}
+          <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
+            <ShieldCheck className="h-5 w-5 mb-2 text-cyber-cyan animate-pulse" />
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">STATUS</span>
+            <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">SECURE</p>
+          </div>
+
+          {/* Box 2 (AI BOT V9.0) */}
+          <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
+            <Cpu className="h-5 w-5 mb-2 text-cyber-cyan" />
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">AI BOT</span>
+            <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">V9.0</p>
+          </div>
+
+          {/* Box 3 (ACTIVE USERS 3,105) */}
+          <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
+            <Users className="h-5 w-5 mb-2 text-cyber-cyan" />
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">ACTIVE</span>
+            <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">{activePlayers.toLocaleString()}</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* Footer copyright block matching reference */}
+      <footer className="text-center w-full z-10 pt-4 cursor-default">
+        <p className="text-[10px] font-mono tracking-widest text-slate-600 uppercase font-semibold">
+          © 2026 MILLIONX PREDICTORS SYSTEM
+        </p>
       </footer>
+
     </div>
   );
 }

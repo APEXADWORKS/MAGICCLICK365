@@ -1,1 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Outfit:wght@400;600;800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Orbitron", sans-serif;
+  --font-mono: "Share Tech Mono", monospace;
+  
+  --color-cyber-cyan: #00ffcc;
+  --color-cyber-green: #2ecc71;
+  --color-neon-pink: #ff007f;
+  --color-dark-800: #0d121a;
+  --color-dark-900: #05070b;
+  --color-dark-950: #010204;
+}
+
+@keyframes pulse-cyan {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.82);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes pulse-radial {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(1.05);
+  }
+}
+
+.pulsing-cyan-btn {
+  animation: pulse-cyan 2.4s infinite ease-in-out;
+}
+
+.pulsing-bg {
+  animation: pulse-radial 6s infinite ease-in-out;
+}
+
+/* Custom glow utility filters */
+.cyan-text-glow {
+  text-shadow: 0 0 8px rgba(0, 255, 204, 0.61), 0 0 15px rgba(0, 255, 204, 0.3);
+}
+
+.pink-glow {
+  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.6));
+}
+
+.cyan-border-glow {
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
+
