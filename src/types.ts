@@ -1,11 +1,11 @@
-export interface Article {
+export interface BlogPost {
   id: string;
   title: string;
   brief: string;
-  content: string; // Will support rich markdown-like / HTML-like paragraphs
+  content: string; // Supports paragraphs and lists
   date: string;
   author: string;
-  category: 'Cricket' | 'Football' | 'Tennis' | 'Basketball' | 'Formula 1' | 'Athletics';
+  category: 'Dogs' | 'Cats' | 'Birds' | 'Rabbits' | 'Exotics' | 'General';
   image: string;
   readTime: string;
   links?: { text: string; url: string }[];
@@ -13,22 +13,16 @@ export interface Article {
   tags: string[];
 }
 
-export interface MatchScore {
+export interface PetCareTask {
   id: string;
-  sport: 'Cricket' | 'Football' | 'Tennis' | 'Basketball';
-  league: string;
-  teamA: string;
-  teamB: string;
-  scoreA: string;
-  scoreB: string;
-  status: 'LIVE' | 'UPCOMING' | 'FINISHED';
-  statusText: string;
-  venue: string;
-  oversOrPeriod?: string; // e.g. "Overs: 45.2" or "84'"
-  summary?: string;
+  task: string;
+  frequency: 'Daily' | 'Weekly' | 'Monthly';
+  petType: 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Exotic';
+  category: 'Nutrition' | 'Grooming' | 'Exercise' | 'Health';
+  description: string;
 }
 
-export interface CricketSite {
+export interface VetResource {
   name: string;
   url: string;
   description: string;
@@ -36,3 +30,4 @@ export interface CricketSite {
   recommendedFor: string;
   badge: string;
 }
+
