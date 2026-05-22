@@ -12,7 +12,7 @@ export default function App() {
   // Simulator timer starts at 197 seconds (03:17)
   const [timeLeft, setTimeLeft] = useState(197);
   const [activePlayers, setActivePlayers] = useState(3105);
-  const telegramUrl = 'https://t.me/chickenroadsignal_official';
+  const registerUrl = 'https://www.junglehaan.vip/share/6IOe3xy=1542';
 
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'license' | null>(null);
 
@@ -96,7 +96,7 @@ export default function App() {
       {/* REPLICA PRIMARY BUTTON "REGISTER NOW / ⚡ JUNGLE HAAN" */}
       <div className="w-full">
         <a 
-          href={telegramUrl}
+          href={registerUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full text-center bg-cyber-cyan text-[#040811] font-black uppercase rounded-2xl p-4.5 transition-all hover:brightness-110 pulsing-cyan-btn cursor-pointer select-none decoration-transparent"
