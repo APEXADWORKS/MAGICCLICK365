@@ -12,7 +12,7 @@ export default function App() {
   // Simulator timer starts at 197 seconds (03:17)
   const [timeLeft, setTimeLeft] = useState(197);
   const [activePlayers, setActivePlayers] = useState(3105);
-  const registerUrl = 'https://www.junglehaan.vip/share/6IOe3xy=1542';
+  const registerUrl = 'https://www.rummyguru.top/share/9IaPqxy?share_type=3';
 
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'license' | null>(null);
 
