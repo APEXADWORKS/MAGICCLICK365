@@ -79,6 +79,9 @@ export default function App() {
     if (currentPath === '/apex2') {
       return 'https://telegram.me/+vUVbLckE0yo4Yzc1';
     }
+    if (currentPath === '/gold1') {
+      return 'https://www.rummyreturn.vip/?dl=45rxoo';
+    }
     return 'https://www.rummyguru.top/share/9IaPqxy?share_type=3';
   };
 
