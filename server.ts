@@ -11,7 +11,7 @@ async function startServer() {
     // Rewrite logical client-side routes in development to index.html so Vite serves the SPA framework
     app.use((req, res, next) => {
       const urlPath = req.path.toLowerCase();
-      if (urlPath === "/apex2" || urlPath === "/apex2/") {
+      if (urlPath === "/apex2" || urlPath === "/apex2/" || urlPath === "/gold1" || urlPath === "/gold1/") {
         req.url = "/index.html";
       }
       next();

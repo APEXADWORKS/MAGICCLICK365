@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import apex2Logo from './assets/images/apex2_logo_1779731043219.png';
+import gold1Logo from './assets/images/gold1_cyber_logo_1779791672230.png';
+import goldBanner from './assets/images/gold_banner_1779792034681.png';
 import { 
   ShieldCheck, 
   Cpu, 
@@ -17,6 +19,9 @@ export default function App() {
     if (path.includes('apex2') || hash.includes('apex2')) {
       return '/apex2';
     }
+    if (path.includes('gold1') || hash.includes('gold1')) {
+      return '/gold1';
+    }
     return '/';
   });
 
@@ -26,6 +31,8 @@ export default function App() {
       const hash = window.location.hash.toLowerCase();
       if (path.includes('apex2') || hash.includes('apex2')) {
         setCurrentPath('/apex2');
+      } else if (path.includes('gold1') || hash.includes('gold1')) {
+        setCurrentPath('/gold1');
       } else {
         setCurrentPath('/');
       }
@@ -368,67 +375,101 @@ export default function App() {
     >
       
       {/* Subtle futuristic background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-cyber-cyan/10 rounded-full blur-[140px] pointer-events-none pulsing-bg"></div>
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none pulsing-bg ${
+        currentPath === '/gold1' ? 'bg-[#ffdd00]/10' : 'bg-cyber-cyan/10'
+      }`}></div>
 
       {/* Main Body Centered Content */}
       <div className="flex-grow flex flex-col items-center justify-center max-w-sm w-full space-y-6 z-10" id="signals-center">
         
         {/* Title: JUNGLE HAAN */}
-        <h1 className="text-3xl font-black tracking-widest font-display text-center uppercase leading-tight select-none">
-          <span className="text-cyber-cyan cyan-text-glow">JUNGLE</span>{' '}
-          <span className="text-white text-shadow-white">HAAN</span>
-          {currentPath === '/apex2' && (
-            <span className="block text-[11px] text-[#00ffcc] font-mono tracking-widest mt-2.5 font-black animate-pulse bg-[#00ffcc]/10 py-1 px-4 rounded-full border border-[#00ffcc]/20 w-fit mx-auto">
-              📡 APEX2 ACTIVE
-            </span>
-          )}
-        </h1>
+        {currentPath !== '/gold1' && (
+          <h1 className="text-3xl font-black tracking-widest font-display text-center uppercase leading-tight select-none">
+            <span className="text-cyber-cyan cyan-text-glow">JUNGLE</span>{' '}
+            <span className="text-white text-shadow-white">HAAN</span>
+            {currentPath === '/apex2' && (
+              <span className="block text-[11px] text-[#00ffcc] font-mono tracking-widest mt-2.5 font-black animate-pulse bg-[#00ffcc]/10 py-1 px-4 rounded-full border border-[#00ffcc]/20 w-fit mx-auto">
+                📡 APEX2 ACTIVE
+              </span>
+            )}
+          </h1>
+        )}
 
-        {/* HIGH-FIDELITY AVATAR CIRCLE */}
-        <div className="relative group cursor-pointer">
-          {/* Cyber-cyan Outer Radial Aura Glow */}
-          <div className="absolute inset-x-0 inset-y-0 rounded-full blur-3xl bg-cyber-cyan/35 opacity-90 transition-all duration-300"></div>
+        {/* HIGH-FIDELITY AVATAR CIRCLE OR RECTANGULAR BANNER */}
+        {currentPath === '/gold1' ? (
+          <div className="relative group cursor-pointer w-full max-w-[280px] sm:max-w-[320px]" id="gold1-banner-container">
+            {/* Golden Outer Radial Aura Glow */}
+            <div className="absolute inset-x-0 inset-y-0 rounded-2xl blur-3xl bg-[#ffdd00]/25 opacity-90 transition-all duration-300"></div>
 
-          {/* Glowing ring bezel */}
-          <div 
-            className="relative w-52 h-52 rounded-full bg-gradient-to-tr from-cyber-cyan via-emerald-400 to-green-500 p-1.5 shadow-2xl transition-transform active:scale-95 duration-200 border-2 border-black/80"
+            {/* Glowing ring bezel */}
+            <div 
+              className="relative w-full aspect-square rounded-2xl bg-[#ffdd00]/15 p-1 border border-[#ffdd00]/35 transition-all duration-300 hover:border-[#ffdd00]/65"
+              style={{
+                boxShadow: '0 0 28px rgba(255, 221, 0, 0.35)'
+              }}
+            >
+              {/* Inner Banner Container */}
+              <div className="w-full h-full rounded-xl bg-dark-950 flex items-center justify-center relative overflow-hidden">
+                <img 
+                  src={goldBanner} 
+                  alt="New games 2026 Free 2000" 
+                  className="w-full h-full object-cover pointer-events-none rounded-xl"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="relative group cursor-pointer">
+            {/* Cyber-cyan Outer Radial Aura Glow */}
+            <div className="absolute inset-x-0 inset-y-0 rounded-full blur-3xl bg-cyber-cyan/35 opacity-90 transition-all duration-300"></div>
+
+            {/* Glowing ring bezel */}
+            <div 
+              className="relative w-52 h-52 rounded-full bg-gradient-to-tr from-cyber-cyan via-emerald-400 to-green-500 p-1.5 shadow-2xl transition-transform active:scale-95 duration-200 border-2 border-black/80"
+              style={{
+                boxShadow: '0 0 32px rgba(0, 255, 204, 0.4)'
+              }}
+            >
+              {/* Inner Graphic Media Container with new Jungle Haan Logo */}
+              <div className="w-full h-full rounded-full bg-dark-950 border border-black/40 flex flex-col items-center justify-center relative overflow-hidden shadow-inner">
+                <img 
+                  src="/images/jungle_haan_logo.png" 
+                  alt="Jungle Haan Mascot" 
+                  className="w-full h-full object-cover rounded-full pointer-events-none scale-[1.01]"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* REPLICA PRIMARY BUTTON "REGISTER NOW" */}
+        <div className="w-full">
+          <a 
+            href={registerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center text-[#040811] font-black uppercase rounded-2xl p-4.5 transition-all hover:brightness-110 cursor-pointer select-none decoration-transparent"
             style={{
-              boxShadow: '0 0 32px rgba(0, 255, 204, 0.4)'
+              background: currentPath === '/gold1' ? '#ffdd00' : '#00ffcc',
+              boxShadow: currentPath === '/gold1' ? '0 0 24px rgba(255, 221, 0, 0.5)' : '0 0 24px rgba(0, 255, 204, 0.45)'
             }}
           >
-            {/* Inner Graphic Media Container with new Jungle Haan Logo */}
-            <div className="w-full h-full rounded-full bg-dark-950 border border-black/40 flex flex-col items-center justify-center relative overflow-hidden shadow-inner">
-              <img 
-                src="/images/jungle_haan_logo.png" 
-                alt="Jungle Haan Mascot" 
-                className="w-full h-full object-cover rounded-full pointer-events-none scale-[1.01]"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-
-          </div>
+            <span className="block text-xl tracking-widest font-black font-display leading-none">
+              REGISTER NOW
+            </span>
+            {currentPath !== '/gold1' ? (
+              <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
+                ⚡ JUNGLE HAAN
+              </span>
+            ) : (
+              <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
+                ⚡ NEW LOBBY GAMES
+              </span>
+            )}
+          </a>
         </div>
-
-      {/* REPLICA PRIMARY BUTTON "REGISTER NOW / ⚡ JUNGLE HAAN" */}
-      <div className="w-full">
-        <a 
-          href={registerUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center bg-cyber-cyan text-[#040811] font-black uppercase rounded-2xl p-4.5 transition-all hover:brightness-110 pulsing-cyan-btn cursor-pointer select-none decoration-transparent"
-          style={{
-            background: '#00ffcc',
-            boxShadow: '0 0 24px rgba(0, 255, 204, 0.45)'
-          }}
-        >
-          <span className="block text-xl tracking-widest font-black font-display leading-none">
-            REGISTER NOW
-          </span>
-          <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
-            ⚡ JUNGLE HAAN
-          </span>
-        </a>
-      </div>
 
       {/* SYSTEM RESET COUNTER CAPSULE PILL */}
       <div className="bg-[#0f141f] border border-white/5 py-3 px-8 rounded-full flex items-center justify-center shadow-lg relative min-w-[240px]">
@@ -442,21 +483,21 @@ export default function App() {
           
           {/* Box 1 (STATUS SECURE) */}
           <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
-            <ShieldCheck className="h-5 w-5 mb-2 text-cyber-cyan animate-pulse" />
+            <ShieldCheck className={`h-5 w-5 mb-2 animate-pulse ${currentPath === '/gold1' ? 'text-[#ffdd00]' : 'text-cyber-cyan'}`} />
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">STATUS</span>
             <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">SECURE</p>
           </div>
 
           {/* Box 2 (AI BOT V9.0) */}
           <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
-            <Cpu className="h-5 w-5 mb-2 text-cyber-cyan" />
+            <Cpu className={`h-5 w-5 mb-2 ${currentPath === '/gold1' ? 'text-[#ffdd00]' : 'text-cyber-cyan'}`} />
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">AI BOT</span>
             <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">V9.0</p>
           </div>
 
           {/* Box 3 (ACTIVE USERS 3,105) */}
           <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
-            <Users className="h-5 w-5 mb-2 text-cyber-cyan" />
+            <Users className={`h-5 w-5 mb-2 ${currentPath === '/gold1' ? 'text-[#ffdd00]' : 'text-cyber-cyan'}`} />
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">ACTIVE</span>
             <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">{activePlayers.toLocaleString()}</p>
           </div>
@@ -469,11 +510,17 @@ export default function App() {
             href="https://t.me/tech_apex" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-black font-mono tracking-widest text-slate-400 hover:text-[#00ffcc] transition-all uppercase select-none active:scale-[0.98] py-1 px-3 rounded-full hover:bg-white/[0.02] border border-transparent hover:border-white/5"
+            className={`inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-black font-mono tracking-widest text-slate-400 transition-all uppercase select-none active:scale-[0.98] py-1 px-3 rounded-full hover:bg-white/[0.02] border border-transparent hover:border-white/5 ${
+              currentPath === '/gold1' ? 'hover:text-[#ffdd00]' : 'hover:text-[#00ffcc]'
+            }`}
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ffcc] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00ffcc]"></span>
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                currentPath === '/gold1' ? 'bg-[#ffdd00]' : 'bg-[#00ffcc]'
+              }`}></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                currentPath === '/gold1' ? 'bg-[#ffdd00]' : 'bg-[#00ffcc]'
+              }`}></span>
             </span>
             managed by - apex ad works
           </a>
