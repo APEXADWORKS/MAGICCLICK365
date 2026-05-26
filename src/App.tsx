@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import apex2Logo from './assets/images/apex2_logo_1779731043219.png';
 import gold1Logo from './assets/images/gold1_cyber_logo_1779791672230.png';
 import goldBanner from './assets/images/gold_banner_1779792034681.png';
+import apex1Banner from './assets/images/apex1_user_banner_1779795905010.png';
 import { 
   ShieldCheck, 
-  Cpu, 
-  Users, 
-  Mail,
+   Cpu, 
+   Users, 
+   Mail,
   FileText,
   X
 } from 'lucide-react';
@@ -22,6 +23,9 @@ export default function App() {
     if (path.includes('gold1') || hash.includes('gold1')) {
       return '/gold1';
     }
+    if (path.includes('apex1') || hash.includes('apex1')) {
+      return '/apex1';
+    }
     return '/';
   });
 
@@ -33,6 +37,8 @@ export default function App() {
         setCurrentPath('/apex2');
       } else if (path.includes('gold1') || hash.includes('gold1')) {
         setCurrentPath('/gold1');
+      } else if (path.includes('apex1') || hash.includes('apex1')) {
+        setCurrentPath('/apex1');
       } else {
         setCurrentPath('/');
       }
@@ -65,6 +71,8 @@ export default function App() {
   useEffect(() => {
     if (currentPath === '/apex2') {
       document.title = "JungleHaan Rewards - APEX2 Special";
+    } else if (currentPath === '/apex1') {
+      document.title = "JungleHaan Rewards - APEX1 Special";
     } else {
       document.title = "JungleHaan Rewards - Play & Win Daily";
     }
@@ -80,7 +88,10 @@ export default function App() {
       return 'https://telegram.me/+vUVbLckE0yo4Yzc1';
     }
     if (currentPath === '/gold1') {
-      return 'https://www.rummyreturn.vip/?dl=45rxoo';
+      return 'https://www.rummyreturn.vip/?qd=361m9';
+    }
+    if (currentPath === '/apex1') {
+      return 'https://www.rummyguru.top/share/9IaPqxy?share_type=3';
     }
     return 'https://www.rummyguru.top/share/9IaPqxy?share_type=3';
   };
@@ -379,14 +390,14 @@ export default function App() {
       
       {/* Subtle futuristic background glow */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none pulsing-bg ${
-        currentPath === '/gold1' ? 'bg-[#ffdd00]/10' : 'bg-cyber-cyan/10'
+        currentPath === '/gold1' ? 'bg-[#ffdd00]/10' : currentPath === '/apex1' ? 'bg-[#ff9d00]/10' : 'bg-cyber-cyan/10'
       }`}></div>
 
       {/* Main Body Centered Content */}
       <div className="flex-grow flex flex-col items-center justify-center max-w-sm w-full space-y-6 z-10" id="signals-center">
         
         {/* Title: JUNGLE HAAN */}
-        {currentPath !== '/gold1' && (
+        {currentPath !== '/gold1' && currentPath !== '/apex1' && (
           <h1 className="text-3xl font-black tracking-widest font-display text-center uppercase leading-tight select-none">
             <span className="text-cyber-cyan cyan-text-glow">JUNGLE</span>{' '}
             <span className="text-white text-shadow-white">HAAN</span>
@@ -399,23 +410,29 @@ export default function App() {
         )}
 
         {/* HIGH-FIDELITY AVATAR CIRCLE OR RECTANGULAR BANNER */}
-        {currentPath === '/gold1' ? (
-          <div className="relative group cursor-pointer w-full max-w-[280px] sm:max-w-[320px]" id="gold1-banner-container">
-            {/* Golden Outer Radial Aura Glow */}
-            <div className="absolute inset-x-0 inset-y-0 rounded-2xl blur-3xl bg-[#ffdd00]/25 opacity-90 transition-all duration-300"></div>
+        {currentPath === '/gold1' || currentPath === '/apex1' ? (
+          <div className="relative group cursor-pointer w-full max-w-[280px] sm:max-w-[320px]" id={`${currentPath.slice(1)}-banner-container`}>
+            {/* Outer Radial Aura Glow */}
+            <div className={`absolute inset-x-0 inset-y-0 rounded-2xl blur-3xl opacity-90 transition-all duration-300 ${
+              currentPath === '/gold1' ? 'bg-[#ffdd00]/25' : 'bg-[#ff9d00]/25'
+            }`}></div>
 
             {/* Glowing ring bezel */}
             <div 
-              className="relative w-full aspect-square rounded-2xl bg-[#ffdd00]/15 p-1 border border-[#ffdd00]/35 transition-all duration-300 hover:border-[#ffdd00]/65"
+              className={`relative w-full aspect-square rounded-2xl p-1 border transition-all duration-300 ${
+                currentPath === '/gold1' 
+                  ? 'bg-[#ffdd00]/15 border-[#ffdd00]/35 hover:border-[#ffdd00]/65' 
+                  : 'bg-[#ff9d00]/15 border-[#ff9d00]/35 hover:border-[#ff9d00]/65'
+              }`}
               style={{
-                boxShadow: '0 0 28px rgba(255, 221, 0, 0.35)'
+                boxShadow: currentPath === '/gold1' ? '0 0 28px rgba(255, 221, 0, 0.35)' : '0 0 28px rgba(255, 157, 0, 0.35)'
               }}
             >
               {/* Inner Banner Container */}
               <div className="w-full h-full rounded-xl bg-dark-950 flex items-center justify-center relative overflow-hidden">
                 <img 
-                  src={goldBanner} 
-                  alt="New games 2026 Free 2000" 
+                  src={currentPath === '/gold1' ? goldBanner : apex1Banner} 
+                  alt={currentPath === '/gold1' ? "New games 2026 Free 2000" : "Festive Bonus 100"} 
                   className="w-full h-full object-cover pointer-events-none rounded-xl"
                   referrerPolicy="no-referrer"
                 />
@@ -455,20 +472,24 @@ export default function App() {
             rel="noopener noreferrer"
             className="block w-full text-center text-[#040811] font-black uppercase rounded-2xl p-4.5 transition-all hover:brightness-110 cursor-pointer select-none decoration-transparent"
             style={{
-              background: currentPath === '/gold1' ? '#ffdd00' : '#00ffcc',
-              boxShadow: currentPath === '/gold1' ? '0 0 24px rgba(255, 221, 0, 0.5)' : '0 0 24px rgba(0, 255, 204, 0.45)'
+              background: currentPath === '/gold1' ? '#ffdd00' : currentPath === '/apex1' ? '#ff9d00' : '#00ffcc',
+              boxShadow: currentPath === '/gold1' ? '0 0 24px rgba(255, 221, 0, 0.5)' : currentPath === '/apex1' ? '0 0 24px rgba(255, 157, 0, 0.5)' : '0 0 24px rgba(0, 255, 204, 0.45)'
             }}
           >
             <span className="block text-xl tracking-widest font-black font-display leading-none">
               REGISTER NOW
             </span>
-            {currentPath !== '/gold1' ? (
+            {currentPath === '/gold1' ? (
               <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
-                ⚡ JUNGLE HAAN
+                ⚡ NEW LOBBY GAMES
+              </span>
+            ) : currentPath === '/apex1' ? (
+              <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
+                ⚡ VIP BONUS ACTIVE
               </span>
             ) : (
               <span className="block text-[11px] font-black tracking-widest text-[#040811]/90 mt-1.5 font-mono">
-                ⚡ NEW LOBBY GAMES
+                ⚡ JUNGLE HAAN
               </span>
             )}
           </a>
@@ -486,21 +507,27 @@ export default function App() {
           
           {/* Box 1 (STATUS SECURE) */}
           <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
-            <ShieldCheck className={`h-5 w-5 mb-2 animate-pulse ${currentPath === '/gold1' ? 'text-[#ffdd00]' : 'text-cyber-cyan'}`} />
+            <ShieldCheck className={`h-5 w-5 mb-2 animate-pulse ${
+              currentPath === '/gold1' ? 'text-[#ffdd00]' : currentPath === '/apex1' ? 'text-[#ff9d00]' : 'text-cyber-cyan'
+            }`} />
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">STATUS</span>
             <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">SECURE</p>
           </div>
 
           {/* Box 2 (AI BOT V9.0) */}
           <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
-            <Cpu className={`h-5 w-5 mb-2 ${currentPath === '/gold1' ? 'text-[#ffdd00]' : 'text-cyber-cyan'}`} />
+            <Cpu className={`h-5 w-5 mb-2 ${
+              currentPath === '/gold1' ? 'text-[#ffdd00]' : currentPath === '/apex1' ? 'text-[#ff9d00]' : 'text-cyber-cyan'
+            }`} />
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">AI BOT</span>
             <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">V9.0</p>
           </div>
 
           {/* Box 3 (ACTIVE USERS 3,105) */}
           <div className="bg-[#0b1019] border border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden">
-            <Users className={`h-5 w-5 mb-2 ${currentPath === '/gold1' ? 'text-[#ffdd00]' : 'text-cyber-cyan'}`} />
+            <Users className={`h-5 w-5 mb-2 ${
+              currentPath === '/gold1' ? 'text-[#ffdd00]' : currentPath === '/apex1' ? 'text-[#ff9d00]' : 'text-cyber-cyan'
+            }`} />
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">ACTIVE</span>
             <p className="text-[11.5px] text-white font-black uppercase tracking-widest mt-1 font-mono">{activePlayers.toLocaleString()}</p>
           </div>
@@ -514,15 +541,15 @@ export default function App() {
             target="_blank" 
             rel="noopener noreferrer" 
             className={`inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-black font-mono tracking-widest text-slate-400 transition-all uppercase select-none active:scale-[0.98] py-1 px-3 rounded-full hover:bg-white/[0.02] border border-transparent hover:border-white/5 ${
-              currentPath === '/gold1' ? 'hover:text-[#ffdd00]' : 'hover:text-[#00ffcc]'
+              currentPath === '/gold1' ? 'hover:text-[#ffdd00]' : currentPath === '/apex1' ? 'hover:text-[#ff9d00]' : 'hover:text-[#00ffcc]'
             }`}
           >
             <span className="relative flex h-2 w-2">
               <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                currentPath === '/gold1' ? 'bg-[#ffdd00]' : 'bg-[#00ffcc]'
+                currentPath === '/gold1' ? 'bg-[#ffdd00]' : currentPath === '/apex1' ? 'bg-[#ff9d00]' : 'bg-[#00ffcc]'
               }`}></span>
               <span className={`relative inline-flex rounded-full h-2 w-2 ${
-                currentPath === '/gold1' ? 'bg-[#ffdd00]' : 'bg-[#00ffcc]'
+                currentPath === '/gold1' ? 'bg-[#ffdd00]' : currentPath === '/apex1' ? 'bg-[#ff9d00]' : 'bg-[#00ffcc]'
               }`}></span>
             </span>
             managed by - apex ad works
